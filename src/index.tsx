@@ -1,4 +1,5 @@
 import { NativeModules, Platform } from 'react-native';
+export { useScanner } from './useScanner';
 
 const LINKING_ERROR =
   `The package 'react-native-datawedge' doesn't seem to be linked. Make sure: \n\n` +
@@ -24,6 +25,27 @@ const Datawedge = DatawedgeModule
       }
     );
 
-export function multiply(a: number, b: number): Promise<number> {
-  return Datawedge.multiply(a, b);
+/**
+ * Function to start a receiver
+ * @param id id of scanner receiver
+ * @returns
+ */
+export function onInit(id: string) {
+  return Datawedge.onInit(id);
+}
+
+/**
+ * Function to created a profile on Datawedege
+ * @param profileName Name of zebra profile
+ * @param intentAction Intent action
+ * @param keystrokeEnabled Optional params to enable keystroke. Default is false
+ * @returns
+ */
+
+export function createProfile(
+  profileName: string,
+  intentAction: string,
+  keystrokeEnabled = false
+) {
+  return Datawedge.createProfile(profileName, intentAction, keystrokeEnabled);
 }

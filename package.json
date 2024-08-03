@@ -1,7 +1,7 @@
 {
   "name": "react-native-datawedge",
-  "version": "0.1.0",
-  "description": "the react native datawedege library",
+  "version": "1.0.1",
+  "description": "the react native datawedge library",
   "source": "./src/index.tsx",
   "main": "./lib/commonjs/index.js",
   "module": "./lib/module/index.js",
