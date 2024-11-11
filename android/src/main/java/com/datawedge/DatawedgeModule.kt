@@ -2,6 +2,8 @@ package com.datawedge
 
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
+import com.datawedge.entities.Urovo
 import com.datawedge.receivebroadcast.ResultReceiveBroadcast
 import com.datawedge.receivebroadcast.ScannerReceiveBroadcast
 import com.facebook.react.bridge.LifecycleEventListener
@@ -19,6 +21,7 @@ class DatawedgeModule internal constructor(context: ReactApplicationContext) :
   private val _filter: IntentFilter = IntentFilter()
   private var _id: String? = null
   private var _intentAction: String? = null
+  private val urovo = Urovo()
 
   init {
     _filter.addCategory(Intent.CATEGORY_DEFAULT)
@@ -56,14 +59,18 @@ class DatawedgeModule internal constructor(context: ReactApplicationContext) :
     managerAppList.setPackageName(_context.packageName)
 
     scanner.createProfile()
+    urovo.setUrovoScannerConfig(intentAction)
   }
 
   companion object {
-    const val NAME = "Datawedge"
+    const val NAME   = "Datawedge"
   }
 
   override fun onHostResume() {
     onRegisterReceiver()
+    urovo.setUrovoScannerConfig(
+      intentAction = _intentAction ?: ""
+    )
   }
 
   override fun onHostPause() {
@@ -72,6 +79,7 @@ class DatawedgeModule internal constructor(context: ReactApplicationContext) :
 
   override fun onHostDestroy() {
     myBroadcastReceiver.unregister(_context)
+    urovo.resetConfig()
   }
 
   private fun getResultFilter(): IntentFilter {
@@ -80,12 +88,5 @@ class DatawedgeModule internal constructor(context: ReactApplicationContext) :
     filter.addAction("com.symbol.datawedge.api.RESULT_ACTION")
     return filter
   }
-
-  // // Example method
-  // // See https://reactnative.dev/docs/native-modules-android
-  // @ReactMethod
-  // override fun multiply(a: Double, b: Double, promise: Promise) {
-  //   promise.resolve(a * b)
-  // }
 
 }
