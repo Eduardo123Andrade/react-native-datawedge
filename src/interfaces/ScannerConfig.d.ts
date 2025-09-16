@@ -5,7 +5,7 @@ declare interface ScannerConfig {
   /**
    * Scanner id
    */
-  id?: string;
+  id: string;
   /**
    * Allow receive scanner data. Default true
    */

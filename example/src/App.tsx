@@ -21,7 +21,7 @@ export default function App() {
 
   React.useEffect(() => {
     const canScan = !(showModal1 || showModal1 || showModal1);
-    setConfig({ canScan, canReset: false });
+    setConfig({ canScan, canReset: false, id: 'FIRST_SCAN' });
   }, [showModal1, showModal1, showModal1]);
 
   React.useEffect(() => {
@@ -49,17 +49,20 @@ export default function App() {
         visible={showModal1}
         onRequestClose={onRequestClose}
         title="Modal 1"
+        id="MODAL_1"
       />
 
       <ModalScanner
         visible={showModal2}
         onRequestClose={onRequestClose}
+        id="MODAL_2"
         title="Modal 2"
       />
 
       <ModalScanner
         visible={showModal3}
         onRequestClose={onRequestClose}
+        id="MODAL_3"
         title="Modal 3"
       />
     </View>

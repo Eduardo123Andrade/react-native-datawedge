@@ -7,6 +7,7 @@ import { SimpleModal } from './SimpleModal';
 interface Modal1Props {
   title: string;
   visible: boolean;
+  id: string;
   onRequestClose: () => void;
 }
 
@@ -15,12 +16,12 @@ export const ModalScanner: React.FC<Modal1Props> = (props) => {
   const [text, setText] = useState<string>();
 
   useEffect(() => {
-    setConfig({ canScan: props.visible });
+    setConfig({ canScan: props.visible, id: props.id });
   }, [props.visible]);
 
   useEffect(() => {
     if (scanner) setText(scanner);
   }, [scanner]);
 
-  return <SimpleModal {...props} message={text}></SimpleModal>;
+  return <SimpleModal {...props} message={text} />;
 };

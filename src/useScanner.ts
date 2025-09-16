@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 import { onInit } from 'react-native-datawedge';
 
-const DEFAULT_CONFIG: ScannerConfig = {
+const DEFAULT_CONFIG: Omit<ScannerConfig, 'id'> = {
   canReset: true,
   canScan: true,
   timeOutToReset: 500,
@@ -10,9 +10,7 @@ const DEFAULT_CONFIG: ScannerConfig = {
 
 export const useScanner = () => {
   const [scanner, setScanner] = useState<string>();
-  const [config, _setConfig] = useState<ScannerConfig>(DEFAULT_CONFIG);
-
-  const _id = useId();
+  const [config, _setConfig] = useState<ScannerConfig>();
 
   const onScanner = (data: string) => {
     setScanner(data);
@@ -27,15 +25,17 @@ export const useScanner = () => {
   };
 
   useEffect(() => {
-    if (scanner && config.canScan && config.onCallbackScanner) {
+    if (scanner && config && config.canScan && config.onCallbackScanner) {
       config.onCallbackScanner(scanner);
     }
-    if (scanner && config.canScan && config.canReset)
+    if (scanner && config && config.canScan && config.canReset)
       setTimeout(() => setScanner(undefined), config.timeOutToReset);
   }, [scanner, config]);
 
   useEffect(() => {
-    const eventId = config.id ?? _id;
+    if (!config || !config?.id) return;
+
+    const eventId = config.id;
     if (!config.canScan) {
       DeviceEventEmitter.removeAllListeners(`onScanner-${eventId}`);
       return;
@@ -43,7 +43,7 @@ export const useScanner = () => {
 
     onInit(eventId);
     DeviceEventEmitter.addListener(`onScanner-${eventId}`, onScanner);
-  }, [_id, config]);
+  }, [config]);
 
   return { scanner, setConfig };
 };
