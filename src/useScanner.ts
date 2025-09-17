@@ -1,4 +1,4 @@
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 import { onInit } from 'react-native-datawedge';
 
